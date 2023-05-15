@@ -20,10 +20,10 @@ public class Question21Application  implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		 // Inserting the data in the mysql table.
-        User first = new User(2, "Krishna Kumar");
-        // ob.save() method
-        ob.save(first);
+		 
+		User first = new User(2, "Krishna Kumar");
+        
+		ob.save(first);
 	}
 
 }
