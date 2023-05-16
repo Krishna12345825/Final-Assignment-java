@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import in.ineuron.service.IUserRegistrationService;
 
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class SecurityConfig {
 	@Autowired
