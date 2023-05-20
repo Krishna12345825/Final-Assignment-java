@@ -9,8 +9,5 @@ public interface IStudentService {
 
 	public Student findById(Integer sid);
 
-	public String updateById(Student student);
-
-	public String deleteById(Integer sid);
 
 }

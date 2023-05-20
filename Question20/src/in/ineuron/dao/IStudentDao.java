@@ -9,5 +9,7 @@ public interface IStudentDao {
 
 	public Student findById(Integer sid);
 
+	public String updateById(Student student);
+
 
 }

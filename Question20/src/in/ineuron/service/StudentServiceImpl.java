@@ -21,4 +21,11 @@ public class StudentServiceImpl implements IStudentService {
 		return stdDao.findById(sid);
 	}
 
+	@Override
+	public String updateById(Student student) {
+		stdDao = StudentDaoFactory.getStudentDao();
+		return stdDao.updateById(student);
+	}
+
+	
 }

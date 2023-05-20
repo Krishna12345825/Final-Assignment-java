@@ -24,8 +24,9 @@ public class TestApp {
 
 			System.out.println("1. CREATE");
 			System.out.println("2. READ");
-			System.out.println("3. EXIT");
-			System.out.print("ENTER UR CHOICE, PRESS[1/2/3]::  ");
+			System.out.println("3. UPDATE");
+			System.out.println("4. EXIT");
+			System.out.print("ENTER UR CHOICE, PRESS[1/2/3/4]::  ");
 			String option = br.readLine();
 
 			switch (option) {
@@ -36,6 +37,9 @@ public class TestApp {
 				selectOperation();
 				break;
 			case "3":
+				updateRecord();
+				break;
+			case "4":
 				System.out.println("******* Thanks for using the application *****");
 				System.exit(0);
 			default:
@@ -47,8 +51,58 @@ public class TestApp {
 
 	}
 
+	private static void updateRecord() throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("Enter the student id to be updated:: ");
+		String sid = br.readLine();
 
-	
+		IStudentService studentService = StudentServiceFactory.getStudentService();
+		Student student = studentService.findById(Integer.parseInt(sid));
+
+		if (student != null) {
+			Student newStudent = new Student();
+
+			System.out.println("Student id is :: " + student.getSid());
+			newStudent.setSid(student.getSid());
+
+			System.out.print("Student oldName is :: " + student.getSname() + "  Enter newName :: ");
+			String newName = br.readLine();
+			if (newName.equals("") || newName == "") {
+				newStudent.setSname(student.getSname());
+			} else {
+				newStudent.setSname(newName);
+			}
+			System.out.print("Student oldAge is :: " + student.getSage() + "  Enter newAge :: ");
+			String newAge = br.readLine();
+			if (newAge.equals("") || newAge == "") {
+				newStudent.setSage(student.getSage());
+			} else {
+				newStudent.setSage(Integer.parseInt(newAge));
+			}
+			System.out.print("Student oldAddress is :: " + student.getSaddress() + "  Enter newAddress :: ");
+			String newAddress = br.readLine();
+			if (newAddress.equals("") || newAddress == "") {
+				newStudent.setSaddress(student.getSaddress());
+			} else {
+				newStudent.setSaddress(newAddress);
+			}
+
+			System.out.println("new Object data is :: " + newStudent);
+			System.out.println();
+
+			String status = studentService.updateById(newStudent);
+			if (status.equalsIgnoreCase("success")) {
+				System.out.println("record updated succesfully");
+			} else {
+				System.out.println("record updation failed");
+			}
+
+		} else {
+			System.out.println("Student record not available for the given id  " + sid + " for updation...");
+		}
+
+	}
+
 
 	private static void selectOperation() {
 		// insertOperation();

@@ -11,6 +11,31 @@ public class StudentDaoImpl implements IStudentDao {
 
 	Session session = HibernateUtil.getSession();
 
+	@Override
+	public String updateById(Student student) {
+		Transaction transaction = session.beginTransaction();
+		boolean flag = false;
+		String status = "";
+
+		try {
+			if (transaction != null) {
+				session.merge(student);
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (flag) {
+				transaction.commit();
+				status = "success";
+			} else {
+				transaction.rollback();
+				status = "failure";
+			}
+		}
+
+		return status;
+	}
 
 	@Override
 	public String save(String sname, Integer sage, String saddress) {
@@ -52,6 +77,5 @@ public class StudentDaoImpl implements IStudentDao {
 			return null;
 	}
 
-
-
+	
 }
