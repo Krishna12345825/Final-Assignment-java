@@ -8,7 +8,11 @@ import org.springframework.context.annotation.Configuration;
 
 import in.ineuron.service.IUserRegistrationService;
 
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 	@Autowired
@@ -31,11 +35,11 @@ public class SecurityConfig {
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	     
 		//autheticate and authorize urls
-		http.authorizeRequests().antMatchers("/bank/").permitAll()
-		                                                  .antMatchers("/user/register","/user/showLogin").permitAll()
-		                                                 .antMatchers("/bank/offers").authenticated()
-		                                                 .antMatchers("/bank/balance").hasAnyAuthority("MANAGER","CUSTOMER")
-		                                                 .antMatchers("/bank/approveLoan").hasAuthority("MANAGER")
+		http.authorizeRequests().requestMatchers("/bank/").permitAll()
+		                                                  .requestMatchers("/user/register","/user/showLogin").permitAll()
+		                                                 .requestMatchers("/bank/offers").authenticated()
+		                                                 .requestMatchers("/bank/balance").hasAnyAuthority("MANAGER","CUSTOMER")
+		                                                 .requestMatchers("/bank/approveLoan").hasAuthority("MANAGER")
 		                                                 .anyRequest().authenticated()
 		                                                
 		       // To enable BASIC Authentication (uses thr browser supplied dialog box)

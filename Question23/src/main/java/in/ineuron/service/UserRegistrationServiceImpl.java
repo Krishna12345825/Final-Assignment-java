@@ -5,13 +5,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import in.ineuron.model.UserDetails;
 import in.ineuron.repository.IUserDetailsRepository;
 
 @Service("userService")
-public class UserRegistrationServiceImpl implements IUserRegistrationService {
+public abstract class UserRegistrationServiceImpl implements IUserRegistrationService {
 	@Autowired
 	private IUserDetailsRepository  userRepo;
 	@Autowired
@@ -20,11 +22,11 @@ public class UserRegistrationServiceImpl implements IUserRegistrationService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//use  userRepo to get currently logged in user details in the form of UserDetails obj
-		Optional<com.nt.model.UserDetails> opt=userRepo.findByUname(username);
+		Optional<UserDetails> opt=userRepo.findByUname(username);
 		if(opt.isEmpty())
 			throw new IllegalArgumentException("User not found");
 		else {
-			  com.nt.model.UserDetails details=opt.get();
+			  in.ineuron.model.UserDetails details=opt.get();
 		/*	// convert Set<String> oles to  Set<SGA> roles
 			    Set<GrantedAuthority>  SGARoles=new HashSet();
 			   for(String role: details.getRoles()) {
@@ -44,7 +46,7 @@ public class UserRegistrationServiceImpl implements IUserRegistrationService {
 	}
 
 	@Override
-	public String registerUser(com.nt.model.UserDetails details) {
+	public String registerUser(in.ineuron.model details) {
 		  // Encode the Password
 		  details.setPwd(encoder.encode(details.getPwd()));
 		  // save object
